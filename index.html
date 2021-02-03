@@ -22,20 +22,39 @@
     <div class="container">
         <form class="col-md-6 m-auto py-5">
             <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Enter a location for Weather ...">
+                <input id="city" type="text" class="form-control" placeholder="Enter a location for Weather ...">
                 <div class="input-group-append">
-                    <button type="button" class="btn btn-danger">Search</button>
+                    <button id="search" type="button" class="btn btn-danger">Search</button>
                 </div>
             </div>
         </form>
         <div class="weather-status text-white text-center">
             <img src="https://openweathermap.org/img/wn/02d@2x.png" alt="">
-            <h1>Dhaka</h1>
-            <h3><span>38.06</span>&deg;C</h3>
-            <h1 class="lead">Clouds</h1>
+            <h1 id="dynamicCity" >Dhaka</h1>
+            <h3><span id="dynamicTemp"></span>&deg;C</h3>
+            <h1 id="dynamicWeather" class="lead">Clouds</h1>
         </div>
     </div>
-
+    <script>
+        const search = document.getElementById("search");
+        search.addEventListener("click", function(){
+            const city = document.getElementById("city").value;
+            const mainAPI = "http://api.openweathermap.org/data/2.5/weather";
+            const apiKey = "2b713d0a7d82e20e5550062e90fa70e2"
+            const url = `${mainAPI}?q=${city}&units=metric&appid=${apiKey}`;
+            fetch(url)
+            .then(res => res.json())
+            .then(data => {
+                const temp = data.main.temp;
+                const cityName = data.name;
+                const cityWeather = data.weather[0].main;
+                document.getElementById("dynamicCity").innerText = cityName;
+                document.getElementById("dynamicTemp").innerText = temp;
+                document.getElementById("dynamicWeather").innerText = cityWeather;
+            });
+        });
+        
+    </script>
 </body>
 
 </html>
