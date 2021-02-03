@@ -30,8 +30,8 @@
         </form>
         <div class="weather-status text-white text-center">
             <img src="https://openweathermap.org/img/wn/02d@2x.png" alt="">
-            <h1 id="dynamicCity" >Dhaka</h1>
-            <h3><span id="dynamicTemp"></span>&deg;C</h3>
+            <h1 id="dynamicCity" ></h1>
+            <h3><span id="dynamicTemp">21</span>&deg;C</h3>
             <h1 id="dynamicWeather" class="lead">Clouds</h1>
         </div>
     </div>
@@ -39,19 +39,21 @@
         const search = document.getElementById("search");
         search.addEventListener("click", function(){
             const city = document.getElementById("city").value;
-            const mainAPI = "http://api.openweathermap.org/data/2.5/weather";
+            const mainAPI = "https://api.openweathermap.org/data/2.5/weather";
             const apiKey = "2b713d0a7d82e20e5550062e90fa70e2"
             const url = `${mainAPI}?q=${city}&units=metric&appid=${apiKey}`;
             fetch(url)
             .then(res => res.json())
-            .then(data => {
+            .then(data => weather(data));
+
+            function weather(data) {
                 const temp = data.main.temp;
                 const cityName = data.name;
                 const cityWeather = data.weather[0].main;
                 document.getElementById("dynamicCity").innerText = cityName;
                 document.getElementById("dynamicTemp").innerText = temp;
                 document.getElementById("dynamicWeather").innerText = cityWeather;
-            });
+            }
         });
         
     </script>
